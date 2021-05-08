@@ -5,15 +5,17 @@
 {% block body %}
 <div class="container">
     <div class="row bg">
+        <div class="preview person">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <p>Email: {{ app.user.email }}</p>
+            {% endif %}
+        </div>
         <h1>List of contacts</h1>
         <div class="container item-list col-sm-8">
             <div class="row">
                 {% for contact in contacts %}
                     <div class="col-sm-12">
                         <div class="row">
-                            <div class="col-sm-4">
-                                <div class="preview person"></div>
-                            </div>
                             <div class="col-sm-8">
                                 <div class="title left">{{contact.name}}</div>
                                 <div class="title left">{{contact.phone}}</div>

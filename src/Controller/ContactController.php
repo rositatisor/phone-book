@@ -24,9 +24,11 @@ class ContactController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
+        $user = $this->getUser();
+
         $contacts = $this->getDoctrine()
             ->getRepository(Contact::class)
-            ->findAll();
+            ->findBy(['user' => $user->getId()]);
 
         return $this->render('contact/index.html.twig', [
             'controller_name' => 'ContactController',
@@ -39,8 +41,11 @@ class ContactController extends AbstractController
      */
     public function create(Request $r): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $contact_name = $r->getSession()->getFlashBag()->get('contact_name', []);
         $contact_phone = $r->getSession()->getFlashBag()->get('contact_phone', []);
+        // $contact_user_id = $this->getUser()->getId();
 
         return $this->render('contact/create.html.twig', [
             'contact_name' => $contact_name[0] ?? '',
@@ -53,10 +58,13 @@ class ContactController extends AbstractController
      */
     public function store(Request $r): Response
     {
+        $user = $this->getUser();
+
         $contact = new Contact;
         $contact
             ->setName($r->request->get('contact_name'))
-            ->setPhone($r->request->get('contact_phone'));
+            ->setPhone($r->request->get('contact_phone'))
+            ->setUser($user);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($contact);
@@ -87,11 +95,14 @@ class ContactController extends AbstractController
      */
     public function update(Request $r, $id): Response
     {
+        $user = $this->getUser();
+
         $contact = $this->getContactById($r);
 
         $contact
             ->setName($r->request->get('contact_name'))
-            ->setPhone($r->request->get('contact_phone'));
+            ->setPhone($r->request->get('contact_phone'))
+            ->setUser($user);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($contact);
