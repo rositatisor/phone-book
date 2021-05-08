@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create new Contact!{% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="row bg">
+    <h1 class="create">Create new Contact</h1>
+    <div class="container create col-sm-6">
+        <form action="{{path('contact_store')}}" method="POST">
+            <div class="new">
+                <label for="contact_name">Name:</label> 
+                <input type="text" name="contact_name" value="{{ contact_name }}" id="contact_name">
+            </div>
+            <div class="new">
+                <label>Phone:</label> 
+                <input type="text" name="contact_phone" value="{{ contact_phone }}" id="contact_phone">
+            </div> 
+            <button class="submit-btn create" type="submit">Add new Contact</button>
+        </form>
+    </div>
+</div>
+</div>
+{% endblock %}
