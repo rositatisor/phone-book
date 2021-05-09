@@ -43,9 +43,15 @@ class User implements UserInterface
      */
     private $contacts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Connection::class, mappedBy="user")
+     */
+    private $connections;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
+        $this->connections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,6 +159,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($contact->getUser() === $this) {
                 $contact->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Connection[]
+     */
+    public function getConnections(): Collection
+    {
+        return $this->connections;
+    }
+
+    public function addConnection(Connection $connection): self
+    {
+        if (!$this->connections->contains($connection)) {
+            $this->connections[] = $connection;
+            $connection->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConnection(Connection $connection): self
+    {
+        if ($this->connections->removeElement($connection)) {
+            // set the owning side to null (unless already changed)
+            if ($connection->getUser() === $this) {
+                $connection->setUser(null);
             }
         }
 
