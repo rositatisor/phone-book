@@ -32,9 +32,24 @@ class ContactController extends AbstractController
             ->getRepository(Contact::class)
             ->findBy(['user' => $user->getId()]);
 
+        $giving_access = $this->getDoctrine()
+            ->getRepository(Connection::class)
+            ->findBy(['user' => $user->getId()]);
+
+        $receiving_access = $this->getDoctrine()
+            ->getRepository(Connection::class)
+            ->findBy(['guest' => $user->getId()]);
+
+        $guests = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findAll();
+
         return $this->render('contact/index.html.twig', [
             'controller_name' => 'ContactController',
-            'contacts' => $contacts
+            'contacts' => $contacts,
+            'giving_access' => $giving_access,
+            'receiving_access' => $receiving_access,
+            'guests' => $guests
         ]);
     }
 
@@ -150,13 +165,8 @@ class ContactController extends AbstractController
             $guest_email = $r->getSession()->getFlashBag()->get('guest_email', []);
         }
 
-        $contact_name = $r->getSession()->getFlashBag()->get('contact_name', []);
-        $contact_phone = $r->getSession()->getFlashBag()->get('contact_phone', []);
-
         return $this->render('contact/share.html.twig', [
             'contact' => $contact,
-            'contact_name' => $contact_name[0] ?? '',
-            'contact_phone' => $contact_phone[0] ?? '',
             'guest_email' => $guest_email[0] ?? ''
         ]);
     }

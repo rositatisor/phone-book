@@ -1,0 +1,28 @@
+<h2>Giving access of contacts</h2>
+{% if giving_access is empty %}
+<p class="empty">There are no connections shared with others.</p>
+{% endif %}
+<div class="container item-list col-sm-8">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-8">
+                    {% for connection in giving_access %}
+                        {% for guest in guests %}
+                            {% if guest.id == connection.guest.id %}
+                                <div class="title left">Guest: {{guest.email}}</div>
+                                <div class="title left">Contact name: {{connection.contact.name}}</div>
+                                <div class="title left">Contact phone: {{connection.contact.phone}}</div>
+                                <div class="buttons">
+                                    <form action="{{path('connection_delete', {id:connection.id})}}" method="POST">
+                                        <button class="submit-btn" type="submit">Stop sharing</button>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

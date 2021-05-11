@@ -9,12 +9,10 @@
     <div class="container create col-sm-6">
         <form action="{{path('connection_share', {id:contact.id})}}" method="POST">
             <div class="new">
-                <label for="contact_name">Name:</label> 
-                <input type="text" name="contact_name" value="{{contact.name}}" id="contact_name">
+                <p>Name: {{contact.name}}</p>
             </div>
             <div class="new">
-                <label for="contact_phone">Phone:</label> 
-                <input type="text" name="contact_phone" value="{{contact.phone}}" id="contact_phone">
+                <p>Phone: {{contact.phone}}</p>
             </div>
             <div class="new">
                 <label for="guest_email">Guest:</label> 

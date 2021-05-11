@@ -52,4 +52,19 @@ class ConnectionController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/connection/delete/{id}", name="connection_delete", methods={"POST"})
+     */
+    public function delete(Request $r): Response
+    {
+        $connection = $this->getDoctrine()
+            ->getRepository(Connection::class)
+            ->find($r->get('id'));
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($connection);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('contact_index');
+    }
 }
