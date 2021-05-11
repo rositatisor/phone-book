@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Contact{% endblock %}
+{% block title %}Share Contact{% endblock %}
 
 {% block body %}
 <div class="container">
 <div class="row bg">
-    <h1>Edit Contact</h1>
+    <h1>Share Contact</h1>
     <div class="container create col-sm-6">
-        <form action="{{path('contact_update', {id:contact.id})}}" method="POST">
+        <form action="{{path('connection_share', {id:contact.id})}}" method="POST">
             <div class="new">
                 <label for="contact_name">Name:</label> 
                 <input type="text" name="contact_name" value="{{contact.name}}" id="contact_name">
@@ -16,7 +16,11 @@
                 <label for="contact_phone">Phone:</label> 
                 <input type="text" name="contact_phone" value="{{contact.phone}}" id="contact_phone">
             </div>
-            <button class="submit-btn create" type="submit">Edit Contact</button>
+            <div class="new">
+                <label for="guest_email">Guest:</label> 
+                <input type="text" name="guest_email" value="{{ guest_email.email ?? guest_email }}" id="guest_email">
+            </div>
+            <button class="submit-btn create" type="submit">Share Contact</button>
         </form>
     </div> 
 </div> 

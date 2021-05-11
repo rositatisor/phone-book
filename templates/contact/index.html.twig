@@ -24,6 +24,9 @@
                                     <form action="{{path('contact_delete', {id:contact.id})}}" method="POST">
                                         <button class="submit-btn" type="submit">Delete</button>
                                     </form>
+                                    <form action="{{path('contact_share', {id: contact.id})}}" method="POST">
+                                        <button class="submit-btn" type="submit">Share</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

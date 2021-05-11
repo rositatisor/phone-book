@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Contact;
+use App\Entity\Connection;
+use App\Entity\User;
 
 class ContactController extends AbstractController
 {
@@ -45,7 +47,6 @@ class ContactController extends AbstractController
 
         $contact_name = $r->getSession()->getFlashBag()->get('contact_name', []);
         $contact_phone = $r->getSession()->getFlashBag()->get('contact_phone', []);
-        // $contact_user_id = $this->getUser()->getId();
 
         return $this->render('contact/create.html.twig', [
             'contact_name' => $contact_name[0] ?? '',
@@ -76,7 +77,7 @@ class ContactController extends AbstractController
     /**
      * @Route("/contact/edit/{id}", name="contact_edit", methods={"GET"})
      */
-    public function edit(int $id, Request $r): Response
+    public function edit(Request $r): Response
     {
         $contact = $this->getContactById($r);
 
@@ -93,7 +94,7 @@ class ContactController extends AbstractController
     /**
      * @Route("/contact/update/{id}", name="contact_update", methods={"POST"})
      */
-    public function update(Request $r, $id): Response
+    public function update(Request $r): Response
     {
         $user = $this->getUser();
 
@@ -125,4 +126,38 @@ class ContactController extends AbstractController
         return $this->redirectToRoute('contact_index');
     }
 
+    /**
+     * @Route("/contact/share/{id}", name="contact_share", methods={"POST"})
+     */
+    public function share(Request $r): Response
+    {
+        $user = $this->getUser();
+
+        $contact = $this->getContactById($r);
+
+        $contact_id = $this->getDoctrine()
+            ->getRepository(Connection::class)
+            ->findBy([
+                'user' => $user->getId(),
+                'contact' => $contact->getId()
+            ]);
+        
+        if ($contact_id) {
+            $guest_email = $this->getDoctrine()
+                ->getRepository(User::class)
+                ->findBy(['id' => $contact_id[0]->getGuest()]);
+        } else {
+            $guest_email = $r->getSession()->getFlashBag()->get('guest_email', []);
+        }
+
+        $contact_name = $r->getSession()->getFlashBag()->get('contact_name', []);
+        $contact_phone = $r->getSession()->getFlashBag()->get('contact_phone', []);
+
+        return $this->render('contact/share.html.twig', [
+            'contact' => $contact,
+            'contact_name' => $contact_name[0] ?? '',
+            'contact_phone' => $contact_phone[0] ?? '',
+            'guest_email' => $guest_email[0] ?? ''
+        ]);
+    }
 }
