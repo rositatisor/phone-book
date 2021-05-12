@@ -6,6 +6,7 @@ use App\Repository\ContactRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
@@ -21,11 +22,36 @@ class Contact
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message="Name should not be blank.")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 64,
+     *      minMessage = "Name must be at least {{ limit }} characters long.",
+     *      maxMessage = "Name cannot be longer than {{ limit }} characters."
+     * )
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Name cannot contain a number"
+     * )
+     * @Assert\Regex(
+     *     pattern     = "/^[a-ząčęėįšųūž]+/i",
+     *     htmlPattern = "^[a-zA-Ząčęėįšųūž]+",
+     *     message="Name cannot contain special symbols."
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=24)
+     * @Assert\NotBlank(message="Phone should not be blank.")
+     * @Assert\Regex(pattern="/^[0-9]*$/", message="Phone must be from numbers only.")
+     * @Assert\Length(
+     *      min = 9,
+     *      max = 24,
+     *      minMessage = "Phone must be at least {{ limit }} characters long.",
+     *      maxMessage = "Phone cannot be longer than {{ limit }} characters."
+     * )
      */
     private $phone;
 
