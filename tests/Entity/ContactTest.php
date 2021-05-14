@@ -3,6 +3,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Contact;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ContactTest extends KernelTestCase
@@ -11,7 +12,8 @@ class ContactTest extends KernelTestCase
     {
         return (new Contact)
             ->setName('Li')
-            ->setPhone('37060000000');
+            ->setPhone('37060000000')
+            ->setUser(new User);
     }
 
     public function assertHasErrors(Contact $contact, int $number = 0)
