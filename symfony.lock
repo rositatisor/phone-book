@@ -112,6 +112,12 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.2.0"
     },
+    "liip/functional-test-bundle": {
+        "version": "4.0.0"
+    },
+    "liip/test-fixtures-bundle": {
+        "version": "2.0.0-alpha1"
+    },
     "monolog/monolog": {
         "version": "2.2.0"
     },
@@ -145,14 +151,14 @@
     "phpunit/php-file-iterator": {
         "version": "3.0.5"
     },
-    "phpunit/php-invoker": {
-        "version": "3.1.1"
-    },
     "phpunit/php-text-template": {
         "version": "2.0.4"
     },
     "phpunit/php-timer": {
         "version": "5.0.3"
+    },
+    "phpunit/php-token-stream": {
+        "version": "4.0.4"
     },
     "phpunit/phpunit": {
         "version": "4.7",
@@ -183,20 +189,11 @@
     "psr/log": {
         "version": "1.1.4"
     },
-    "sebastian/cli-parser": {
-        "version": "1.0.1"
-    },
-    "sebastian/code-unit": {
-        "version": "1.0.8"
-    },
     "sebastian/code-unit-reverse-lookup": {
         "version": "2.0.3"
     },
     "sebastian/comparator": {
         "version": "4.0.6"
-    },
-    "sebastian/complexity": {
-        "version": "2.0.2"
     },
     "sebastian/diff": {
         "version": "4.0.4"
@@ -210,9 +207,6 @@
     "sebastian/global-state": {
         "version": "5.0.2"
     },
-    "sebastian/lines-of-code": {
-        "version": "1.0.3"
-    },
     "sebastian/object-enumerator": {
         "version": "4.0.4"
     },
@@ -224,9 +218,6 @@
     },
     "sebastian/resource-operations": {
         "version": "3.0.3"
-    },
-    "sebastian/type": {
-        "version": "2.3.1"
     },
     "sebastian/version": {
         "version": "3.0.2"
