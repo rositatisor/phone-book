@@ -1,0 +1,31 @@
+{% set route_name = app.request.attributes.get('_route') %}
+<nav class="navbar">
+	<div class="container-nav">
+		<a class="navbar-brand" href="http://localhost/phone-book/public/">Phone book</a>
+		<div class="navbar-item">
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <div class="nav-item">
+                    <a class="nav-link" href="{{ path('contact_index') }}">
+                        Contacts
+                    </a>
+                    <a class="nav-link" href="{{ path('contact_create') }}">
+                        New Contact
+                    </a>
+                    <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ app.user.username }}
+                    </a>
+                    <a class="nav-link log-out" href="{{ path('app_logout') }}">
+                        Log out
+                    </a>
+                </div>
+            {% else %}
+                <div class="nav-item">
+                    <a class="nav-link sign-in {% if route_name == 'app_login' %} checked {% endif %}" href="{{ path('app_login') }}">Sign-in</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link register {% if route_name == 'app_register' %} checked {% endif %}" href="{{ path('app_register') }}">Register</a>
+                </div>
+            {% endif %}
+		</div>
+	</div>
+</nav>
