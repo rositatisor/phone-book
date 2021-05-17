@@ -45,9 +45,54 @@ class ContactController extends AbstractController
             ->findAll();
 
         return $this->render('contact/index.html.twig', [
-            'controller_name' => 'ContactController',
             'contacts' => $contacts,
             'giving_access' => $giving_access,
+            'receiving_access' => $receiving_access,
+            'guests' => $guests
+        ]);
+    }
+
+    /**
+     * @Route("/giving", name="contact_index_giving", methods={"GET"})
+     */
+    public function giving(): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $user = $this->getUser();
+
+        $giving_access = $this->getDoctrine()
+            ->getRepository(Connection::class)
+            ->findBy(['user' => $user->getId()]);
+
+        $guests = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findAll();
+
+        return $this->render('contact/giving.html.twig', [
+            'giving_access' => $giving_access,
+            'guests' => $guests
+        ]);
+    }
+
+    /**
+     * @Route("/receiving", name="contact_index_receiving", methods={"GET"})
+     */
+    public function receiving(): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $user = $this->getUser();
+
+        $receiving_access = $this->getDoctrine()
+            ->getRepository(Connection::class)
+            ->findBy(['guest' => $user->getId()]);
+
+        $guests = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findAll();
+
+        return $this->render('contact/receiving.html.twig', [
             'receiving_access' => $receiving_access,
             'guests' => $guests
         ]);

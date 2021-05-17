@@ -3,18 +3,33 @@
 {% block title %}Homepage{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/phone-book/src/Controller/HomepageController.php'|file_link(0) }}">src/Controller/HomepageController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/phone-book/templates/homepage/index.html.twig'|file_link(0) }}">templates/homepage/index.html.twig</a></code></li>
-    </ul>
+<div class="homepage">
+    <div class="hello">
+        {% if app.user %}
+            <h1>Welcome back, {{app.user.username}}</h1>
+        {% else %}
+            <h1>Welcome to the Phone-book</h1>
+        {% endif %}
+    </div>
+    {# <div class="hero"> #}
+        <div class="items">
+            <a href="http://localhost/phone-book/public/contact" class="list-item">
+                <img src="http://localhost/phone-book/assets/img/undraw_people_search.png"></img>
+                <h3>Contacts</h3>
+                <p>Check the list of all contacts in your phone book.</p>
+            </a>
+            <a href="http://localhost/phone-book/public/giving" class="list-item">
+                <img src="http://localhost/phone-book/assets/img/undraw_share_online.png"></img>
+                <h3>Giving access</h3>
+                <p>Check the list of contacts which you are sharing with others.</p>
+            </a>
+            <a href="http://localhost/phone-book/public/receiving" class="list-item">
+                <img src="http://localhost/phone-book/assets/img/undraw_people.png"></img>
+                <h3>Receiving access</h3>
+                <p>Check the list of contacts you receive.</p>
+            </a>
+        </div>
+    {# </div> #}
+    {# <div class="homepage-image"></div> #}
 </div>
 {% endblock %}
