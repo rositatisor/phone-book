@@ -8,23 +8,25 @@
     {% if giving_access is empty %}
     <p class="empty">There are no connections shared with others.</p>
     {% endif %}
-    <div class="item-list">
-        {% for connection in giving_access %}
-            <div class="item">
-                {% for guest in guests %}
-                    {% if guest.id == connection.guest.id %}
-                        <div class="title">Guest: {{guest.email}}</div>
-                        <div class="title">Contact name: {{connection.contact.name}}</div>
-                        <div class="title">Contact phone: {{connection.contact.phone}}</div>
-                        <div class="buttons">
-                            <form action="{{path('connection_delete', {id:connection.id})}}" method="POST">
-                                <button class="submit-btn" type="submit">Stop sharing</button>
-                            </form>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        {% endfor %}
+    <div class="scroll-item">
+        <div class="item-list">
+            {% for connection in giving_access %}
+                <div class="item">
+                    {% for guest in guests %}
+                        {% if guest.id == connection.guest.id %}
+                            <div class="title"><strong>Guest: </strong>{{guest.email}}</div>
+                            <div class="title"><strong>Contact name: </strong>{{connection.contact.name}}</div>
+                            <div class="title"><strong>Contact phone: </strong>{{connection.contact.phone}}</div>
+                            <div class="buttons">
+                                <form action="{{path('connection_delete', {id:connection.id})}}" method="POST" class="access">
+                                    <button class="submit-btn" type="submit">Stop sharing</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}

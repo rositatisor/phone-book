@@ -1,3 +1,5 @@
+@use "sass:map";
+
 $violet: #6c63ff;
 $light-violet: #a8a3fd;
 $transparent-light-violet: #a8a3fd52;
@@ -6,6 +8,18 @@ $grey: #dad8d8;
 $dark-grey: #666;
 $black: #2f2e41;
 $border: 1.5rem;
+
+$theme-colors: (
+    "success": #d4eddabd,
+    "danger": #f8d7dabd,
+    "warning": #fff3cdbd,
+);
+
+$font-colors: (
+    "success": #155724,
+    "danger": #7a1c24,
+    "warning": #856404,
+);
 
 body,
 body * {
@@ -24,6 +38,27 @@ body {
     width: 100%;
     height: 100vh;
     background-color: $light-grey;
+}
+
+.alert-danger {
+    width: 100%;
+    text-align: center;
+    color: map.get($font-colors, "danger");
+    background-color: map.get($theme-colors, "danger");
+}
+
+.alert-success {
+    width: 100%;
+    text-align: center;
+    color: map.get($font-colors, "success");
+    background-color: map.get($theme-colors, "success");
+}
+
+.alert-warning {
+    width: 100%;
+    text-align: center;
+    color: map.get($font-colors, "warning");
+    background-color: map.get($theme-colors, "warning");
 }
 
 a {
@@ -163,8 +198,8 @@ nav {
                 top: 0;
                 left: 0;
                 font-size: 14px;
-                color: #721c24;
-                background-color: #f8d7da;
+                color: map.get($font-colors, "danger");
+                background-color: map.get($theme-colors, "danger");
             }
 
             h1 {
@@ -320,12 +355,17 @@ nav {
     flex-direction: column;
     align-items: center;
 
+    .alert-success,
+    .alert-danger {
+        font-size: 14px;
+    }
+
     h1,
     h2 {
-        height: 15%;
+        height: 10%;
         width: 100%;
         text-align: center;
-        line-height: 60px;
+        line-height: 50px;
     }
 
     .box {
@@ -383,7 +423,7 @@ nav {
             width: 100%;
             height: 90%;
             flex-direction: column;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             align-content: space-around;
             justify-content: flex-start;
             align-items: center;
@@ -393,20 +433,43 @@ nav {
                 width: 100%;
                 height: 100%;
                 margin: auto;
-                flex-wrap: nowrap;
                 justify-content: flex-start;
             }
 
             .item {
                 display: inline-block;
-                width: 40%;
+                width: 35%;
 
-                &:hover {
+                &.contacts:hover {
                     background-color: $light-grey;
                 }
 
                 &.contacts {
                     width: 100%;
+                }
+
+                form.access {
+                    display: block;
+                    width: 100%;
+                    margin-top: 10px;
+
+                    .submit-btn {
+                        height: 30px;
+                        display: block;
+                        margin: auto;
+                        font-size: 14px;
+                        border: none;
+                        text-align: center;
+                        cursor: pointer;
+                        width: 40%;
+                        color: $black;
+                        background-color: $grey;
+
+                        &:hover {
+                            color: $black;
+                            background-color: $transparent-light-violet;
+                        }
+                    }
                 }
 
                 .details {
@@ -449,9 +512,9 @@ nav {
                         margin-top: 4px;
 
                         .edit-btn {
-                            font-size: 14px;
                             color: $violet;
                             background-color: $transparent-light-violet;
+                            font-size: 14px;
                             padding: 0 10px;
 
                             &:hover {
@@ -467,8 +530,8 @@ nav {
                                 color: $dark-grey;
                                 border: none;
                                 width: 50px;
-                                cursor: pointer;
                                 font-size: 14px;
+                                cursor: pointer;
                                 padding: none;
 
                                 &:hover {

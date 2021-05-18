@@ -8,18 +8,20 @@
     {% if receiving_access is empty %}
     <p class="empty">There are no receiving access of contacts to show.</p>
     {% endif %}
-    <div class="item-list">
-        {% for connection in receiving_access %}
-            <div class="item">
-                {% for guest in guests %}
-                    {% if guest.id == connection.guest.id %}
-                        <div class="title">Guest: {{guest.email}}</div>
-                        <div class="title">Contact name: {{connection.contact.name}}</div>
-                        <div class="title">Contact phone: {{connection.contact.phone}}</div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        {% endfor %}
+    <div class="scroll-item">
+        <div class="item-list">
+            {% for connection in receiving_access %}
+                <div class="item">
+                    {% for guest in guests %}
+                        {% if guest.id == connection.guest.id %}
+                            <div class="title"><strong>Guest: </strong>{{guest.email}}</div>
+                            <div class="title"><strong>Contact name: </strong>{{connection.contact.name}}</div>
+                            <div class="title"><strong>Contact phone: </strong>{{connection.contact.phone}}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}
