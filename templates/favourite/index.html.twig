@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Favourites{% endblock %}
+
+{% block body %}
+<div class="column contacts">
+    {% if success is defined and success|length > 0 %}
+        {% include 'msg/success.html.twig'%}
+    {% endif %}
+    <h2>Favourites</h2>
+    <div class="scroll-item">
+        <div class="item-list contacts">
+            {% if favourites is empty %}
+                <p class="empty">There are no favourites added.</p>
+                <p class="empty">You can add favourite contacts below in the selection form.</p>
+            {% endif %}
+            <form action="{{path('favourites_add')}}" method="GET" class="favourites">
+                <select name="contact_id">
+                    <option value="0">View all</option>
+                    {% for contact in contacts %}
+                        <option value="{{contact.id}}">{{contact.name}}</option>
+                    {% endfor %}
+                </select>
+                <button class="submit-btn" type="submit">Add</button>
+            </form>
+            {% for favourite in favourites %}
+                <div class="item contacts">
+                    <div class="details">
+                        <div class="avatar"></div>
+                        <div class="name">{{favourite.name}}</div>
+                        <div class="phone">{{favourite.phone}}</div>
+                        <form action="{{path('favourites_remove', {id:favourite.id})}}" method="POST" class="delete">
+                            <button class="submit-btn delete-btn" type="submit">+</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

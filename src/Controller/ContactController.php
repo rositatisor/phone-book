@@ -138,7 +138,8 @@ class ContactController extends AbstractController
         $contact
             ->setName($r->request->get('contact_name'))
             ->setPhone($r->request->get('contact_phone'))
-            ->setUser($user);
+            ->setUser($user)
+            ->setFavourite('no');
 
         $errors = $validator->validate($contact);
         if (count($errors) > 0) {

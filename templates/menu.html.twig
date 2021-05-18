@@ -5,11 +5,14 @@
 		<div class="navbar-item">
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <div class="nav-item">
+                    <a class="nav-link" href="{{ path('favourites_index') }}">
+                        Favourites
+                    </a>
                     <a class="nav-link" href="{{ path('contact_index') }}">
                         Contacts
                     </a>
                     <a class="nav-link" href="{{ path('contact_create') }}">
-                        New Contact
+                        New contact
                     </a>
                     <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ app.user.username }}

@@ -11,44 +11,48 @@
         {% include 'msg/success.html.twig'%}
     {% endif %}
     <h2>List of contacts</h2>
-    <div class="sort">
-        <p>List order by:</p> 
-        <form action="{{path('contact_index')}}" method="GET">
-            <select name="sort">
-                <option value="default">Default</option>
-                <option value="name_az" {% if sortBy == 'name_az' %} selected {% endif %}>Name A-Z</option>
-                <option value="name_za" {% if sortBy == 'name_za' %} selected {% endif %}>Name Z-A</option>
-            </select>
-            <button class="sort submit-btn" type="submit">Sort</button>
-        </form>
-        <a href="{{path('contact_index')}}" class="clear">Clear sort</a>
-    </div>
-    <div class="scroll-item">
-        <div class="item-list contacts">
-            {% if contacts is empty %}
-                <p class="empty">There are no contacts in your phone-book. You can check if there are any contacts shared with you 
-                    <a href="{{path('contact_index_receiving')}}">here.</a>
-                </p>
-            {% endif %}
-            {% for contact in contacts %}
-                <div class="item contacts">
-                    <div class="details">
-                        <div class="avatar"></div>
-                        <div class="name">{{contact.name}}</div>
-                        <div class="phone">{{contact.phone}}</div>
-                        <div class="buttons">
-                            <a class="edit-btn" href="{{path('contact_edit', {id: contact.id})}}">Edit</a>
-                            <form action="{{path('contact_share', {id: contact.id})}}" method="POST">
-                                <button class="submit-btn share-btn" type="submit">Share</button>
+    {% if contacts is empty %}
+        <p class="empty">There are no contacts in your phone-book. You can check if there are any contacts shared with you 
+            <a href="{{path('contact_index_receiving')}}">here.</a>
+        </p>
+        <p class="empty">Add new contacts
+            <a href="{{path('contact_create')}}">here.</a>
+        </p>
+    {% else %}
+        <div class="sort">
+            <p>List order by:</p> 
+            <form action="{{path('contact_index')}}" method="GET">
+                <select name="sort">
+                    <option value="default">Default</option>
+                    <option value="name_az" {% if sortBy == 'name_az' %} selected {% endif %}>Name A-Z</option>
+                    <option value="name_za" {% if sortBy == 'name_za' %} selected {% endif %}>Name Z-A</option>
+                </select>
+                <button class="sort submit-btn" type="submit">Sort</button>
+            </form>
+            <a href="{{path('contact_index')}}" class="clear">Clear sort</a>
+        </div>
+    {% endif %}    
+        <div class="scroll-item">
+            <div class="item-list contacts">
+                {% for contact in contacts %}
+                    <div class="item contacts">
+                        <div class="details">
+                            <div class="avatar"></div>
+                            <div class="name">{{contact.name}}</div>
+                            <div class="phone">{{contact.phone}}</div>
+                            <div class="buttons">
+                                <a class="edit-btn" href="{{path('contact_edit', {id: contact.id})}}">Edit</a>
+                                <form action="{{path('contact_share', {id: contact.id})}}" method="POST">
+                                    <button class="submit-btn share-btn" type="submit">Share</button>
+                                </form>
+                            </div>
+                            <form action="{{path('contact_delete', {id:contact.id})}}" method="POST" class="delete">
+                                <button class="submit-btn delete-btn" type="submit">+</button>
                             </form>
                         </div>
-                        <form action="{{path('contact_delete', {id:contact.id})}}" method="POST" class="delete">
-                            <button class="submit-btn delete-btn" type="submit">+</button>
-                        </form>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

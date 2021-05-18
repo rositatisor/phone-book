@@ -13,7 +13,8 @@ class ContactTest extends KernelTestCase
         return (new Contact)
             ->setName('Li')
             ->setPhone('37060000000')
-            ->setUser(new User);
+            ->setUser(new User)
+            ->setFavourite('no');
     }
 
     public function assertHasErrors(Contact $contact, int $number = 0)

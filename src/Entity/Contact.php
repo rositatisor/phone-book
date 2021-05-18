@@ -66,6 +66,11 @@ class Contact
      */
     private $connections;
 
+    /**
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    private $favourite;
+
     public function __construct()
     {
         $this->connections = new ArrayCollection();
@@ -138,6 +143,18 @@ class Contact
                 $connection->setContact(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFavourite(): ?string
+    {
+        return $this->favourite;
+    }
+
+    public function setFavourite(?string $favourite): self
+    {
+        $this->favourite = $favourite;
 
         return $this;
     }
