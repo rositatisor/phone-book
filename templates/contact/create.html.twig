@@ -4,6 +4,9 @@
 
 {% block body %}
 <div class="column">
+    {% if errors is defined and errors|length > 0%}
+        {% include 'msg/validation.html.twig'%}
+    {% endif %}
     <h2>Create new Contact</h2>
     <div class="box">
         <form action="{{path('contact_store')}}" method="POST">

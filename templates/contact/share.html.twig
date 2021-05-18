@@ -3,24 +3,25 @@
 {% block title %}Share Contact{% endblock %}
 
 {% block body %}
-<div class="container">
-<div class="row bg">
-    <h1>Share Contact</h1>
-    <div class="container create col-sm-6">
+<div class="column">
+    {% if errors is defined and errors|length > 0%}
+        {% include 'msg/validation.html.twig'%}
+    {% endif %}
+    <h2>Share Contact</h2>
+    <div class="box">
         <form action="{{path('connection_share', {id:contact.id})}}" method="POST">
-            <div class="new">
+            <div class="info">
                 <p>Name: {{contact.name}}</p>
             </div>
-            <div class="new">
+            <div class="info">
                 <p>Phone: {{contact.phone}}</p>
             </div>
-            <div class="new">
+            <div class="info">
                 <label for="guest_email">Guest:</label> 
                 <input type="text" name="guest_email" value="{{ guest_email.email ?? guest_email }}" id="guest_email">
             </div>
-            <button class="submit-btn create" type="submit">Share Contact</button>
+            <button class="submit-btn create-btn" type="submit">Share Contact</button>
         </form>
     </div> 
-</div> 
 </div> 
 {% endblock %}

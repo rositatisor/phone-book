@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Entity\Contact;
 use App\Entity\Connection;
 use App\Entity\User;
@@ -19,10 +20,25 @@ class ContactController extends AbstractController
             ->find($r->get('id'));
     }
 
+    private function successMessage(Request $r, Contact $contact, $type)
+    {
+        switch ($type) {
+            case 'create':
+                $r->getSession()->getFlashBag()->add('success', 'Contact '.$contact->getName().' with phone '.$contact->getPhone().' was created.');
+                break;
+            case 'edit':
+                $r->getSession()->getFlashBag()->add('success', 'Contact '.$contact->getName().' with phone '.$contact->getPhone().' was updated.');
+                break;
+            case 'delete':
+                $r->getSession()->getFlashBag()->add('success', 'Contact '.$contact->getName().' was deleted.');
+                break;
+        }
+    }
+
     /**
      * @Route("/contact", name="contact_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(Request $r): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -48,14 +64,16 @@ class ContactController extends AbstractController
             'contacts' => $contacts,
             'giving_access' => $giving_access,
             'receiving_access' => $receiving_access,
-            'guests' => $guests
+            'guests' => $guests,
+            'success' => $r->getSession()->getFlashBag()->get('success', []),
+            'errors' => $r->getSession()->getFlashBag()->get('errors', [])
         ]);
     }
 
     /**
      * @Route("/giving", name="contact_index_giving", methods={"GET"})
      */
-    public function giving(): Response
+    public function giving(Request $r): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -71,7 +89,8 @@ class ContactController extends AbstractController
 
         return $this->render('contact/giving.html.twig', [
             'giving_access' => $giving_access,
-            'guests' => $guests
+            'guests' => $guests,
+            'success' => $r->getSession()->getFlashBag()->get('success', [])
         ]);
     }
 
@@ -110,14 +129,15 @@ class ContactController extends AbstractController
 
         return $this->render('contact/create.html.twig', [
             'contact_name' => $contact_name[0] ?? '',
-            'contact_phone' => $contact_phone[0] ?? ''
+            'contact_phone' => $contact_phone[0] ?? '',
+            'errors' => $r->getSession()->getFlashBag()->get('errors', [])
         ]);
     }
 
     /**
      * @Route("/contact/store", name="contact_store", methods={"POST"})
      */
-    public function store(Request $r): Response
+    public function store(Request $r, ValidatorInterface $validator): Response
     {
         $user = $this->getUser();
 
@@ -127,9 +147,22 @@ class ContactController extends AbstractController
             ->setPhone($r->request->get('contact_phone'))
             ->setUser($user);
 
+        $errors = $validator->validate($contact);
+        if (count($errors) > 0) {
+            foreach ($errors as $error) {
+                $r->getSession()->getFlashBag()->add('errors', $error->getMessage());
+            }
+            $r->getSession()->getFlashBag()->add('contact_name', $r->request->get('contact_name'));
+            $r->getSession()->getFlashBag()->add('contact_phone', $r->request->get('contact_phone'));
+
+            return $this->redirectToRoute('contact_create');
+        }
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($contact);
         $entityManager->flush();
+
+        $this->successMessage($r, $contact, 'create');
 
         return $this->redirectToRoute('contact_index');
     }
@@ -147,14 +180,15 @@ class ContactController extends AbstractController
         return $this->render('contact/edit.html.twig', [
             'contact' => $contact,
             'contact_name' => $contact_name[0] ?? '',
-            'contact_phone' => $contact_phone[0] ?? ''
+            'contact_phone' => $contact_phone[0] ?? '',
+            'errors' => $r->getSession()->getFlashBag()->get('errors', [])
         ]);
     }
 
     /**
      * @Route("/contact/update/{id}", name="contact_update", methods={"POST"})
      */
-    public function update(Request $r): Response
+    public function update(Request $r, ValidatorInterface $validator): Response
     {
         $user = $this->getUser();
 
@@ -164,10 +198,20 @@ class ContactController extends AbstractController
             ->setName($r->request->get('contact_name'))
             ->setPhone($r->request->get('contact_phone'))
             ->setUser($user);
+        
+        $errors = $validator->validate($contact);
+        if (count($errors) > 0) {
+            foreach ($errors as $error) {
+                $r->getSession()->getFlashBag()->add('errors', $error->getMessage());
+            }
+            return $this->redirectToRoute('contact_edit', ['id'=>$contact->getId()]);
+        }
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($contact);
         $entityManager->flush();
+
+        $this->successMessage($r, $contact, 'edit');
 
         return $this->redirectToRoute('contact_index');
     }
@@ -179,10 +223,17 @@ class ContactController extends AbstractController
     {
         $contact = $this->getContactById($r);
 
+        if ($contact->getConnections()->count() > 0) {
+            $r->getSession()->getFlashBag()->add('errors', 'Selected contact '.$contact->getName().' cannot be deleted, hence has connections assigned.');
+            return $this->redirectToRoute('contact_index');
+        }
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($contact);
         $entityManager->flush();
 
+        $this->successMessage($r, $contact, 'delete');
+        
         return $this->redirectToRoute('contact_index');
     }
 
@@ -206,10 +257,10 @@ class ContactController extends AbstractController
             $guest_email = $this->getDoctrine()
                 ->getRepository(User::class)
                 ->findBy(['id' => $contact_id[0]->getGuest()]);
-        } else {
-            $guest_email = $r->getSession()->getFlashBag()->get('guest_email', []);
-        }
-
+            } else {
+                $guest_email = $r->getSession()->getFlashBag()->get('guest_email', []);
+            }
+            
         return $this->render('contact/share.html.twig', [
             'contact' => $contact,
             'guest_email' => $guest_email[0] ?? ''

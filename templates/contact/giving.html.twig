@@ -4,9 +4,14 @@
 
 {% block body %}
 <div class="column">
+    {% if success is defined and success|length > 0 %}
+        {% include 'msg/success.html.twig'%}
+    {% endif %}
     <h2>Giving access of contacts</h2>
     {% if giving_access is empty %}
-    <p class="empty">There are no connections shared with others.</p>
+        <p class="empty">There are no connections shared with others. You can check if there are any contacts shared with you 
+            <a href="{{path('contact_index_receiving')}}">here.</a>
+        </p>
     {% endif %}
     <div class="scroll-item">
         <div class="item-list">

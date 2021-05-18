@@ -563,3 +563,17 @@ nav {
         }
     }
 }
+
+.empty {
+    display: block;
+    width: 50%;
+    margin: 20px auto;
+
+    a {
+        color: $violet;
+
+        &:hover {
+            color: $light-violet;
+        }
+    }
+}

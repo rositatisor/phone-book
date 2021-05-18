@@ -13,16 +13,6 @@ use App\Entity\User;
 class ConnectionController extends AbstractController
 {
     /**
-     * @Route("/connection", name="connection_index", methods={"GET"})
-     */
-    public function index(): Response
-    {
-        return $this->render('connection/index.html.twig', [
-            'controller_name' => 'ConnectionController',
-        ]);
-    }
-
-    /**
      * @Route("/share/{id}", name="connection_share", methods={"POST"})
      */
     public function share(Request $r): Response
@@ -47,9 +37,9 @@ class ConnectionController extends AbstractController
         $entityManager->persist($connection);
         $entityManager->flush();
 
-        return $this->render('connection/index.html.twig', [
-            'controller_name' => 'ConnectionController',
-        ]);
+        $r->getSession()->getFlashBag()->add('success', 'Contact '.$contact->getName().' was shared.');
+
+        return $this->redirectToRoute('contact_index');
     }
 
     /**
@@ -65,6 +55,8 @@ class ConnectionController extends AbstractController
         $entityManager->remove($connection);
         $entityManager->flush();
 
-        return $this->redirectToRoute('contact_index');
+        $r->getSession()->getFlashBag()->add('success', 'Sharing successfully canceled.');
+
+        return $this->redirectToRoute('contact_index_giving');
     }
 }
