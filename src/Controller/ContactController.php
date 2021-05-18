@@ -20,7 +20,7 @@ class ContactController extends AbstractController
             ->find($r->get('id'));
     }
 
-    private function successMessage(Request $r, Contact $contact, $type)
+    private function successMessage(Request $r, Contact $contact, string $type)
     {
         switch ($type) {
             case 'create':
@@ -45,16 +45,10 @@ class ContactController extends AbstractController
         $user = $this->getUser();
 
         $contacts = $this->getDoctrine()
-            ->getRepository(Contact::class)
-            ->findBy(['user' => $user->getId()]);
-
-        $giving_access = $this->getDoctrine()
-            ->getRepository(Connection::class)
-            ->findBy(['user' => $user->getId()]);
-
-        $receiving_access = $this->getDoctrine()
-            ->getRepository(Connection::class)
-            ->findBy(['guest' => $user->getId()]);
+            ->getRepository(Contact::class);
+            if ($r->query->get('sort') == 'name_az') $contacts = $contacts->findBy(['user' => $user->getId()], ['name' => 'asc']);
+            elseif ($r->query->get('sort') == 'name_za') $contacts = $contacts->findBy(['user' => $user->getId()], ['name' => 'desc']);
+            else $contacts = $contacts->findBy(['user' => $user->getId()]);
 
         $guests = $this->getDoctrine()
             ->getRepository(User::class)
@@ -62,9 +56,8 @@ class ContactController extends AbstractController
 
         return $this->render('contact/index.html.twig', [
             'contacts' => $contacts,
-            'giving_access' => $giving_access,
-            'receiving_access' => $receiving_access,
             'guests' => $guests,
+            'sortBy' => $r->query->get('sort') ?? 'default',
             'success' => $r->getSession()->getFlashBag()->get('success', []),
             'errors' => $r->getSession()->getFlashBag()->get('errors', [])
         ]);

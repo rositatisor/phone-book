@@ -44,6 +44,7 @@ main {
     display: flex;
     flex-direction: column;
     width: 80%;
+    height: 84%;
     margin: 2rem 0;
     align-items: center;
     background: #fff;
@@ -349,10 +350,57 @@ nav {
 
     h1,
     h2 {
-        height: 10%;
+        height: 8%;
         width: 100%;
         text-align: center;
-        line-height: 50px;
+        line-height: 46px;
+    }
+
+    .sort {
+        display: flex;
+        width: 100%;
+        height: 8%;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        column-gap: 10px;
+        font-size: 14px;
+
+        form {
+            width: 140px;
+
+            select {
+                display: inline-block;
+                height: 20px;
+            }
+
+            button {
+                display: inline-block;
+                width: 50px;
+                height: 20px;
+                font-size: 14px;
+                border: none;
+                text-align: center;
+                cursor: pointer;
+                color: $black;
+                background-color: $grey;
+
+                &:hover {
+                    color: $black;
+                    background-color: $transparent-light-violet;
+                }
+            }
+        }
+        a {
+            color: $violet;
+            padding: 5px;
+
+            &:hover {
+                color: $light-violet;
+            }
+        }
     }
 
     .box {
@@ -402,7 +450,7 @@ nav {
     .scroll-item {
         display: block;
         width: 100%;
-        height: 70%;
+        height: 68%;
         overflow-y: scroll;
 
         .item-list {

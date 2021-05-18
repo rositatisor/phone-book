@@ -11,6 +11,18 @@
         {% include 'msg/success.html.twig'%}
     {% endif %}
     <h2>List of contacts</h2>
+    <div class="sort">
+        <p>List order by:</p> 
+        <form action="{{path('contact_index')}}" method="GET">
+            <select name="sort">
+                <option value="default">Default</option>
+                <option value="name_az" {% if sortBy == 'name_az' %} selected {% endif %}>Name A-Z</option>
+                <option value="name_za" {% if sortBy == 'name_za' %} selected {% endif %}>Name Z-A</option>
+            </select>
+            <button class="sort submit-btn" type="submit">Sort</button>
+        </form>
+        <a href="{{path('contact_index')}}" class="clear">Clear sort</a>
+    </div>
     <div class="scroll-item">
         <div class="item-list contacts">
             {% if contacts is empty %}
