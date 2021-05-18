@@ -41,6 +41,11 @@ main {
     box-shadow: 0 0.3rem 1rem rgb(0 0 0 / 10%);
 }
 
+button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
 nav {
     display: inline-block;
     width: 100%;
@@ -315,11 +320,56 @@ nav {
     flex-direction: column;
     align-items: center;
 
+    h1,
     h2 {
         height: 15%;
         width: 100%;
         text-align: center;
         line-height: 60px;
+    }
+
+    .box {
+        display: block;
+        margin: 0 auto;
+        width: 40%;
+        height: 40%;
+
+        .info {
+            label,
+            input {
+                display: block;
+                font-size: 14px;
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+
+        .create-btn {
+            display: block;
+            margin: auto;
+            width: 70%;
+            margin-top: 30px;
+            height: 30px;
+            cursor: pointer;
+            border: none;
+            background: $grey;
+
+            &:hover {
+                background: $transparent-light-violet;
+            }
+        }
+    }
+
+    .create-image {
+        display: block;
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin: auto;
+        width: 40%;
+        height: 45%;
+        background-color: #fff;
+        background-position: center;
+        background-image: url("http://localhost/phone-book/assets/img/undraw_selecting_team.png");
     }
 
     .scroll-item {
@@ -364,17 +414,13 @@ nav {
                     column-gap: 15px;
                     width: 40%;
                     margin: auto;
+                    text-align: center;
                     grid-template-columns: 70px auto 10%;
                     grid-template-rows: auto auto;
                     grid-template-areas:
                         "avatar name delete"
                         "avatar phone delete"
                         "avatar buttons delete";
-
-                    button {
-                        -webkit-appearance: none;
-                        -moz-appearance: none;
-                    }
 
                     .avatar {
                         grid-area: avatar;
