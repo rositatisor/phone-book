@@ -40,31 +40,6 @@ body {
     background-color: $light-grey;
 }
 
-.alert-danger {
-    width: 100%;
-    text-align: center;
-    color: map.get($font-colors, "danger");
-    background-color: map.get($theme-colors, "danger");
-}
-
-.alert-success {
-    width: 100%;
-    text-align: center;
-    color: map.get($font-colors, "success");
-    background-color: map.get($theme-colors, "success");
-}
-
-.alert-warning {
-    width: 100%;
-    text-align: center;
-    color: map.get($font-colors, "warning");
-    background-color: map.get($theme-colors, "warning");
-}
-
-a {
-    text-decoration: none;
-}
-
 main {
     display: flex;
     flex-direction: column;
@@ -79,6 +54,18 @@ main {
 button {
     -webkit-appearance: none;
     -moz-appearance: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    font-size: 12px;
+    color: #ff0000;
+    &::marker {
+        font-size: 0;
+    }
 }
 
 nav {
@@ -576,4 +563,25 @@ nav {
             color: $light-violet;
         }
     }
+}
+
+.alert-danger {
+    width: 100%;
+    text-align: center;
+    color: map.get($font-colors, "danger");
+    background-color: map.get($theme-colors, "danger");
+}
+
+.alert-success {
+    width: 100%;
+    text-align: center;
+    color: map.get($font-colors, "success");
+    background-color: map.get($theme-colors, "success");
+}
+
+.alert-warning {
+    width: 100%;
+    text-align: center;
+    color: map.get($font-colors, "warning");
+    background-color: map.get($theme-colors, "warning");
 }

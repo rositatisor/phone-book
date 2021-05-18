@@ -6,7 +6,9 @@
 <div class="column">
     <h2>Receiving access of contacts</h2>
     {% if receiving_access is empty %}
-    <p class="empty">There are no receiving access of contacts to show.</p>
+    <p class="empty">There are no receiving access of contacts to show.You can check your contacts  
+        <a href="{{path('contact_index')}}">here.</a>
+    </p>
     {% endif %}
     <div class="scroll-item">
         <div class="item-list">
