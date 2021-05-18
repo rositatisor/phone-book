@@ -3,36 +3,33 @@
 {% block title %}Contacts{% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row bg">
-        <div class="preview person">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <p>Email: {{ app.user.email }}</p>
-            {% endif %}
-        </div>
-        <h1>List of contacts</h1>
-        <div class="container item-list col-sm-8">
-            <div class="row">
-                {% for contact in contacts %}
-                    <div class="col-sm-12">
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <div class="title left">{{contact.name}}</div>
-                                <div class="title left">{{contact.phone}}</div>
-                                <div class="buttons">
-                                    <a class="edit-btn" href="{{path('contact_edit', {id: contact.id})}}">Edit</a>
-                                    <form action="{{path('contact_delete', {id:contact.id})}}" method="POST">
-                                        <button class="submit-btn" type="submit">Delete</button>
-                                    </form>
-                                    <form action="{{path('contact_share', {id: contact.id})}}" method="POST">
-                                        <button class="submit-btn" type="submit">Share</button>
-                                    </form>
-                                </div>
-                            </div>
+<div class="column contacts">
+    {# <div class="preview person">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <p>Email: {{ app.user.email }}</p>
+        {% endif %}
+    </div> #}
+    <h2>List of contacts</h2>
+    <div class="scroll-item">
+        <div class="item-list contacts">
+            {% for contact in contacts %}
+                <div class="item contacts">
+                    <div class="details">
+                        <div class="avatar"></div>
+                        <div class="name">{{contact.name}}</div>
+                        <div class="phone">{{contact.phone}}</div>
+                        <div class="buttons">
+                            <a class="edit-btn" href="{{path('contact_edit', {id: contact.id})}}">Edit</a>
+                            <form action="{{path('contact_share', {id: contact.id})}}" method="POST">
+                                <button class="submit-btn share-btn" type="submit">Share</button>
+                            </form>
                         </div>
+                        <form action="{{path('contact_delete', {id:contact.id})}}" method="POST" class="delete">
+                            <button class="submit-btn delete-btn" type="submit">+</button>
+                        </form>
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </div>
