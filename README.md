@@ -27,6 +27,9 @@ In the terminal in the project directory, all tests can be run with one command:
 ./vendor/bin/phpunit
 ```
 
+## Preview
+<img width="700" alt="Capture" src="https://user-images.githubusercontent.com/70884246/118752568-fec0ed00-b86b-11eb-9ef2-86f3eb1cea1b.png">
+
 ## Author
 
 [Rosita](https://github.com/rositatisor)
