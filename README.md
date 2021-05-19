@@ -20,6 +20,8 @@
 - net/http request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers);
 - net/http: TLS handshake timeout.
 
+_However, due to the reasons the application is not using Docker, for easy access purposes the app with development environment is hosted and can be accessed via following link: [https://narkute.lt/phone-book/public/](https://narkute.lt/phone-book/public/)._
+
 ## Tests
 There are tests available for the application in the /tests directory.
 In the terminal in the project directory, all tests can be run with one command:
